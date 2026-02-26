@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elijah | CodeCraftr93 | Gaming & Tech Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-pink: #ff006e;
+            --dark-bg: #050505;
+            --card-bg: #0a0a0a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple));
+            border-radius: 4px;
+        }
+
+        /* Animated Background Grid */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-1 { background: var(--neon-cyan); top: -200px; left: -200px; }
+        .glow-2 { background: var(--neon-purple); bottom: -200px; right: -200px; }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-pink);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--neon-cyan);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            20% { clip: rect(54px, 9999px, 96px, 0); }
+            40% { clip: rect(70px, 9999px, 99px, 0); }
+            60% { clip: rect(3px, 9999px, 63px, 0); }
+            80% { clip: rect(37px, 9999px, 95px, 0); }
+            100% { clip: rect(68px, 9999px, 39px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 99px, 0); }
+            20% { clip: rect(93px, 9999px, 4px, 0); }
+            40% { clip: rect(26px, 9999px, 100px, 0); }
+            60% { clip: rect(11px, 9999px, 14px, 0); }
+            80% { clip: rect(63px, 9999px, 46px, 0); }
+            100% { clip: rect(23px, 9999px, 79px, 0); }
+        }
+
+        /* Card Hover Effects */
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 40px -10px rgba(0, 243, 255, 0.3);
+        }
+
+        /* Neon Button */
+        .neon-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .neon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .neon-btn:hover::before {
+            left: 100%;
+        }
+
+        .neon-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Skill Tags */
+        .skill-tag {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0, 243, 255, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+        }
+
+        /* Screenshot Gallery */
+        .screenshot-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .screenshot-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+
+        .screenshot-item:hover .screenshot-overlay {
+            opacity: 1;
+        }
+
+        .screenshot-item img {
+            transition: transform 0.5s;
+        }
+
+        .screenshot-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Navigation */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        /* Typing Effect */
+        .typing-text::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Particle Canvas */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-2xl font-bold brand-font bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+                        YOURNAME
+                    </span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">About</a>
+                        <a href="#projects" class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Projects</a>
+                        <a href="#gallery" class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Gallery</a>
+                        <a href="#contact" class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="https://discord.gg/yourlink" target="_blank" class="text-gray-400 hover:text-[#5865F2] transition-colors">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://github.com/yourname" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://twitter.com/yourname" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i data-lucide="twitter" class="w-6 h-6"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        <canvas id="particle-canvas"></canvas>
+        
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+            <div class="mb-6 inline-block">
+                <span class="px-4 py-2 rounded-full bg-white/5 border border-cyan-500/30 text-cyan-400 text-sm font-medium tracking-wider uppercase">
+                    Gaming • Tech • Modding • Streaming
+                </span>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 brand-font">
+                <span class="glitch" data-text="YOURNAME">YOURNAME</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-2xl mx-auto typing-text" id="typing-text">
+                Building immersive gaming experiences and pushing tech boundaries
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <a href="#projects" class="neon-btn px-8 py-4 bg-cyan-500/20 border border-cyan-500 text-cyan-400 rounded-lg font-semibold hover:bg-cyan-500/30 flex items-center gap-2">
+                    <i data-lucide="rocket" class="w-5 h-5"></i>
+                    View Projects
+                </a>
+                <a href="#contact" class="neon-btn px-8 py-4 bg-purple-500/20 border border-purple-500 text-purple-400 rounded-lg font-semibold hover:bg-purple-500/30 flex items-center gap-2">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                    Get In Touch
+                </a>
+            </div>
+
+            <div class="flex justify-center gap-6 text-gray-500">
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-bold text-white counter" data-target="50">0</span>
+                    <span class="text-sm">Projects</span>
+                </div>
+                <div class="w-px bg-gray-700"></div>
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-bold text-white counter" data-target="10">0</span>
+                    <span class="text-sm">Years Exp</span>
+                </div>
+                <div class="w-px bg-gray-700"></div>
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-bold text-white counter" data-target="1000">0</span>
+                    <span class="text-sm">Discord Members</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-gray-500"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal-left">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 brand-font">
+                        About <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Me</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                        I'm a passionate gamer, modder, and tech enthusiast with over a decade of experience creating immersive digital experiences. From custom game modifications to full-stack development, I love pushing the boundaries of what's possible.
+                    </p>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                        Currently streaming on Twitch and building open-source tools for the gaming community. Always experimenting with new tech and sharing knowledge with fellow developers.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag px-4 py-2 rounded-full text-sm font-medium text-cyan-400">Game Modding</span>
+                        <span class="skill-tag px-4 py-2 rounded-full text-sm font-medium text-purple-400">Unity/Unreal</span>
+                        <span class="skill-tag px-4 py-2 rounded-full text-sm font-medium text-pink-400">Full Stack Dev</span>
+                        <span class="skill-tag px-4 py-2 rounded-full text-sm font-medium text-cyan-400">3D Modeling</span>
+                        <span class="skill-tag px-4 py-2 rounded-full text-sm font-medium text-purple-400">Live Streaming</span>
+                        <span class="skill-tag px-4 py-2 rounded-full text-sm font-medium text-pink-400">UI/UX Design</span>
+                    </div>
+                </div>
+                
+                <div class="relative reveal-right">
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl blur-2xl opacity-20"></div>
+                    <div class="relative bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-black/40 rounded-lg p-4 border border-white/5">
+                                <i data-lucide="gamepad-2" class="w-8 h-8 text-cyan-400 mb-2"></i>
+                                <h3 class="font-semibold mb-1">Gaming</h3>
+                                <p class="text-sm text-gray-500">Competitive & casual</p>
+                            </div>
+                            <div class="bg-black/40 rounded-lg p-4 border border-white/5">
+                                <i data-lucide="code-2" class="w-8 h-8 text-purple-400 mb-2"></i>
+                                <h3 class="font-semibold mb-1">Modding</h3>
+                                <p class="text-sm text-gray-500">Custom content creation</p>
+                            </div>
+                            <div class="bg-black/40 rounded-lg p-4 border border-white/5">
+                                <i data-lucide="cpu" class="w-8 h-8 text-pink-400 mb-2"></i>
+                                <h3 class="font-semibold mb-1">Tech</h3>
+                                <p class="text-sm text-gray-500">Hardware & software</p>
+                            </div>
+                            <div class="bg-black/40 rounded-lg p-4 border border-white/5">
+                                <i data-lucide="video" class="w-8 h-8 text-cyan-400 mb-2"></i>
+                                <h3 class="font-semibold mb-1">Streaming</h3>
+                                <p class="text-sm text-gray-500">Live content creation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-black/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 brand-font">Featured <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Projects</span></h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">A selection of my recent work in gaming, modding, and software development.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card rounded-2xl overflow-hidden group reveal-up">
+                    <div class="h-48 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center relative overflow-hidden">
+                        <i data-lucide="sword" class="w-20 h-20 text-cyan-400/50 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold">RPG Overhaul Mod</h3>
+                            <span class="text-xs px-2 py-1 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">Modding</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4">Complete gameplay overhaul for Skyrim featuring new mechanics, quests, and enhanced graphics. 500k+ downloads.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-xs px-2 py-1 rounded bg-white/5 text-gray-400">C++</span>
+                            <span class="text-xs px-2 py-1 rounded bg-white/5 text-gray-400">Papyrus</span>
+                            <span class="text-xs px-2 py-1 rounded bg-white/5 text-gray-400">3D Modeling</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 text-sm font-medium group-hover:gap-3 transition-all">
+                            View Project <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <
